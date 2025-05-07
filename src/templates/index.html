@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WloredAI - نظامك الشخصي الذكي</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>WloredAI</h1>
+        <div class="search-bar-container">
+            <input type="search" id="smartSearchHeader" placeholder="ابحث في WloredAI...">
+            <button onclick="triggerDeepSearchFromHeader()">بحث عميق</button>
+        </div>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <h2>لوحة التحكم</h2>
+            <p>(لوحة تحكم قابلة للتخصيص - سيتم تطويرها)</p>
+            <ul>
+                <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
+                <li><a href="#deepSearchSection" onclick="showFeatureSection('deepSearchSection')">البحث العميق</a></li>
+                <li><a href="#strategicThinkingSection" onclick="showFeatureSection('strategicThinkingSection')">التفكير الاستراتيجي</a></li>
+                <li><a href="#contentCreatorSection" onclick="showFeatureSection('contentCreatorSection')">منشئ المحتوى</a></li>
+                <li><a href="#">الإعدادات</a></li>
+                <li><a href="{{ url_for('privacy_policy') }}">سياسة الخصوصية</a></li>
+            </ul>
+        </aside>
+
+        <section class="content">
+            <div id="mainContent">
+                <h2>المحتوى الرئيسي</h2>
+                <p>مرحباً بك في WloredAI. هذا هو نظامك الشخصي الذكي.</p>
+                <p>استخدم القائمة الجانبية للوصول إلى الميزات المختلفة.</p>
+            </div>
+
+            <!-- Deep Search Section -->
+            <div id="deepSearchSection" class="feature-section" style="display:none;">
+                <h2>البحث العميق</h2>
+                <div class="search-input-area">
+                    <input type="text" id="deepSearchQueryInput" placeholder="اكتب ما تبحث عنه..." style="width: 70%; padding: 0.5rem;">
+                    <button onclick="performDeepSearch()" class="deep-thinking-button" style="margin-top:0; margin-right: 10px;">ابحث الآن</button>
+                </div>
+                <div id="deepSearchResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض نتائج البحث العميق هنا...</p>
+                </div>
+            </div>
+
+            <!-- Strategic Thinking Section -->
+            <div id="strategicThinkingSection" class="feature-section" style="display:none;">
+                <h2>التفكير الاستراتيجي</h2>
+                <div class="input-area">
+                    <textarea id="strategicProblemInput" placeholder="اكتب المشكلة أو السيناريو لتحليله استراتيجيًا..." style="width: 90%; min-height: 100px; padding: 0.5rem; margin-bottom:10px;"></textarea>
+                    <label for="strategicLevelSelect">اختر مستوى التحليل:</label>
+                    <select id="strategicLevelSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="مبتدئ">مبتدئ</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="خبير">خبير</option>
+                    </select>
+                    <button onclick="performStrategicThinking()" class="deep-thinking-button">ابدأ التفكير الاستراتيجي</button>
+                </div>
+                <div id="strategicThinkingResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض نتائج التحليل الاستراتيجي هنا...</p>
+                </div>
+            </div>
+
+            <!-- Content Creator Section (Placeholder) -->
+            <div id="contentCreatorSection" class="feature-section" style="display:none;">
+                <h2>منشئ المحتوى</h2>
+                <p>(سيتم تطوير واجهة منشئ المحتوى هنا)</p>
+                 <div class="input-area">
+                    <label for="contentTypeSelect">نوع المحتوى:</label>
+                    <select id="contentTypeSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="مقالة">مقالة</option>
+                        <option value="تقرير">تقرير</option>
+                        <option value="شعر">شعر</option>
+                    </select>
+                    <input type="text" id="contentTopicInput" placeholder="اكتب موضوع المحتوى..." style="width: 70%; padding: 0.5rem; margin-bottom:10px;">
+                    <label for="contentLanguageSelect">اللغة:</label>
+                    <select id="contentLanguageSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="العربية">العربية</option>
+                        <option value="الإنجليزية">الإنجليزية</option>
+                        <option value="الفرنسية">الفرنسية</option>
+                    </select>
+                    <button onclick="performContentCreation()" class="deep-thinking-button">أنشئ المحتوى</button>
+                </div>
+                <div id="contentCreatorResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض المحتوى المُنشأ هنا...</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="notifications">
+            <h2>الإشعارات</h2>
+            <p>(نظام إشعارات متقدم - سيتم تطويره)</p>
+        </section>
+    </main>
+
+    <footer>
+        <p id="ownershipSignature">{{ signature }}</p>
+    </footer>
+
+    <script>
+        // Function to show specific feature section and hide others
+        function showFeatureSection(sectionId) {
+            document.getElementById('mainContent').style.display = 'none';
+            const sections = document.querySelectorAll('section.content > .feature-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            const targetElement = document.getElementById(sectionId);
+            if (targetElement) {
+                targetElement.style.display = 'block';
+            }
+        }
+
+        // JavaScript for Deep Search
+        async function performDeepSearch() {
+            const query = document.getElementById('deepSearchQueryInput').value;
+            const resultsDiv = document.getElementById('deepSearchResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري البحث العميق عن \"${query}\"...</p>`;
+
+            try {
+                const response = await fetch(`/api/deep_search?query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                if (data.status === 'success') {
+                    let html = `<h3>نتائج البحث عن: ${data.query}</h3><ul>`;
+                    data.data.forEach(result => {
+                        html += `<li>${result}</li>`;
+                    });
+                    html += '</ul>';
+                    resultsDiv.innerHTML = html;
+                } else {
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء عملية البحث.</p>';
+                }
+            } catch (error) {
+                console.error('Error during deep search:', error);
+                resultsDiv.innerHTML = '<p>حدث خطأ. يرجى مراجعة وحدة التحكم.</p>';
+            }
+        }
+
+        // JavaScript for Strategic Thinking
+        async function performStrategicThinking() {
+            const problem = document.getElementById('strategicProblemInput').value;
+            const level = document.getElementById('strategicLevelSelect').value;
+            const resultsDiv = document.getElementById('strategicThinkingResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري التفكير الاستراتيجي في \"${problem}\" بمستوى \"${level}\"...</p>`;
+
+            try {
+                const response = await fetch(`/api/strategic_thinking?problem=${encodeURIComponent(problem)}&level=${encodeURIComponent(level)}`);
+                const data = await response.json();
+                if (data.status === 'success') {
+                    resultsDiv.innerHTML = `<h3>التحليل الاستراتيجي لـ: ${data.problem} (مستوى: ${data.level})</h3><p>${data.data}</p>`;
+                } else {
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء عملية التفكير الاستراتيجي.</p>';
+                }
+            } catch (error) {
+                console.error('Error during strategic thinking:', error);
+                resultsDiv.innerHTML = '<p>حدث خطأ. يرجى مراجعة وحدة التحكم.</p>';
+            }
+        }
+
+        // JavaScript for Content Creator
+        async function performContentCreation() {
+            const contentType = document.getElementById('contentTypeSelect').value;
+            const topic = document.getElementById('contentTopicInput').value;
+            const language = document.getElementById('contentLanguageSelect').value;
+            const resultsDiv = document.getElementById('contentCreatorResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري إنشاء محتوى من نوع \"${contentType}\" حول \"${topic}\" باللغة \"${language}\"...</p>`;
+
+            try {
+                const response = await fetch(`/api/create_content?type=${encodeURIComponent(contentType)}&topic=${encodeURIComponent(topic)}&language=${encodeURIComponent(language)}`);
+                const data = await response.json();
+                if (data.status === 'success') {
+                    resultsDiv.innerHTML = `<h3>تم إنشاء ${data.type} حول: ${data.topic} (${data.language})</h3><p>${data.data}</p>`;
+                } else {
+                    resultsDiv.innerHTML = '<p>حدث خطأ أثناء عملية إنشاء المحتوى.</p>';
+                }
+            } catch (error) {
+                console.error('Error during content creation:', error);
+                resultsDiv.innerHTML = '<p>حدث خطأ. يرجى مراجعة وحدة التحكم.</p>';
+            }
+        }
+        
+        // Initial setup: if a feature is targeted by hash, show it and scroll to it
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash) {
+                const targetSectionId = window.location.hash.substring(1); // remove #
+                const targetElement = document.getElementById(targetSectionId);
+                if (targetElement && targetElement.classList.contains('feature-section')) {
+                     showFeatureSection(targetSectionId);
+                }
+            }
+        });
+
+        // For the header search bar
+        function triggerDeepSearchFromHeader() {
+            const query = document.getElementById('smartSearchHeader').value;
+            if(query){
+                showFeatureSection('deepSearchSection');
+                document.getElementById('deepSearchQueryInput').value = query;
+                performDeepSearch();
+            }
+        }
+
+    </script>
+</body>
+</html>
+
