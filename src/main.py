@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 # إضافة مسار المشروع إلى مسارات النظام
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-# استيراد خدمة Gemini
-from services.gemini_service import gemini_service
+# استيراد خدمة Search1API
+from services.search1api_service import search1_service
 
 # تحميل متغيرات البيئة
 load_dotenv()
@@ -26,7 +26,7 @@ class WloredAI:
         # NVIDIA_AI_Shield=True (مفهومي، سيتم بحث كيفية تطبيقه)
         
         # 💡 نواة الذكاء الاصطناعي (مفاهيمية)
-        self.محرك_التفكير_العميق = "Google Gemini API"
+        self.محرك_التفكير_العميق = "Search1API - deepseek-r1-70b-online"
         self.نافذة_السياق = 131072  # رمز
 
     def بناء_الواجهة_cfg(self):
@@ -43,12 +43,12 @@ class WloredAI:
     def تفعيل_الميزات_cfg(self):
         return {
             "البحث_العميق": {
-                "الوصف": "بحث شامل باستخدام Google Gemini API",
-                "المحددات": "حسب حدود استخدام Google Gemini API"
+                "الوصف": "بحث شامل باستخدام Search1API",
+                "المحددات": "حسب حدود استخدام Search1API"
             },
             "التفكير_الاستراتيجي": {
                 "المستويات": ["مبتدئ", "متوسط", "خبير"],
-                "الوظيفة": "تحليل المشكلات متعددة الأبعاد باستخدام Google Gemini API"
+                "الوظيفة": "تحليل المشكلات متعددة الأبعاد باستخدام Search1API"
             },
             "منشئ_المحتوى": {
                 "النماذج": ["مقالات", "تقارير", "شعر"],
@@ -56,22 +56,22 @@ class WloredAI:
             }
         }
 
-    # --- تنفيذ الميزات باستخدام خدمة Gemini --- #
+    # --- تنفيذ الميزات باستخدام خدمة Search1API --- #
     async def perform_deep_search(self, query):
-        """تنفيذ بحث عميق باستخدام Gemini API"""
-        result = await gemini_service.deep_search(query)
+        """تنفيذ بحث عميق باستخدام Search1API"""
+        result = await search1_service.deep_search(query)
         return result
     
     async def perform_strategic_thinking(self, problem, level='مبتدئ'):
-        """تنفيذ تفكير استراتيجي باستخدام Gemini API"""
+        """تنفيذ تفكير استراتيجي باستخدام Search1API"""
         scenario = f"المشكلة: {problem}\nالمستوى: {level}"
-        result = await gemini_service.strategic_thinking(scenario)
+        result = await search1_service.strategic_thinking(scenario)
         return result
     
     async def create_content(self, content_type, topic, language='العربية'):
-        """إنشاء محتوى باستخدام Gemini API"""
+        """إنشاء محتوى باستخدام Search1API"""
         topic_with_lang = f"{topic} (باللغة {language})"
-        result = await gemini_service.content_generator(topic_with_lang, content_type)
+        result = await search1_service.content_generator(topic_with_lang, content_type)
         return result
 
 # إنشاء نسخة من WloredAI
@@ -131,4 +131,4 @@ def api_create_content():
     return jsonify(content)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5003, debug=True)
