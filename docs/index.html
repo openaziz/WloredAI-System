@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WloredAI - نظامك الشخصي الذكي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>WloredAI</h1>
+        <div class="search-bar-container">
+            <input type="search" id="smartSearchHeader" placeholder="ابحث في WloredAI...">
+            <button onclick="triggerDeepSearchFromHeader()">بحث عميق</button>
+        </div>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <h2>لوحة التحكم</h2>
+            <p>(لوحة تحكم قابلة للتخصيص - سيتم تطويرها)</p>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="#deepSearchSection" onclick="showFeatureSection('deepSearchSection')">البحث العميق</a></li>
+                <li><a href="#strategicThinkingSection" onclick="showFeatureSection('strategicThinkingSection')">التفكير الاستراتيجي</a></li>
+                <li><a href="#contentCreatorSection" onclick="showFeatureSection('contentCreatorSection')">منشئ المحتوى</a></li>
+                <li><a href="#">الإعدادات</a></li>
+                <li><a href="privacy_policy.html">سياسة الخصوصية</a></li>
+            </ul>
+        </aside>
+
+        <section class="content">
+            <div id="mainContent">
+                <h2>المحتوى الرئيسي</h2>
+                <p>مرحباً بك في WloredAI. هذا هو نظامك الشخصي الذكي.</p>
+                <p>استخدم القائمة الجانبية للوصول إلى الميزات المختلفة.</p>
+            </div>
+
+            <!-- Deep Search Section -->
+            <div id="deepSearchSection" class="feature-section" style="display:none;">
+                <h2>البحث العميق</h2>
+                <div class="search-input-area">
+                    <input type="text" id="deepSearchQueryInput" placeholder="اكتب ما تبحث عنه..." style="width: 70%; padding: 0.5rem;">
+                    <button onclick="performDeepSearch()" class="deep-thinking-button" style="margin-top:0; margin-right: 10px;">ابحث الآن</button>
+                </div>
+                <div id="deepSearchResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض نتائج البحث العميق هنا...</p>
+                </div>
+            </div>
+
+            <!-- Strategic Thinking Section -->
+            <div id="strategicThinkingSection" class="feature-section" style="display:none;">
+                <h2>التفكير الاستراتيجي</h2>
+                <div class="input-area">
+                    <textarea id="strategicProblemInput" placeholder="اكتب المشكلة أو السيناريو لتحليله استراتيجيًا..." style="width: 90%; min-height: 100px; padding: 0.5rem; margin-bottom:10px;"></textarea>
+                    <label for="strategicLevelSelect">اختر مستوى التحليل:</label>
+                    <select id="strategicLevelSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="مبتدئ">مبتدئ</option>
+                        <option value="متوسط">متوسط</option>
+                        <option value="خبير">خبير</option>
+                    </select>
+                    <button onclick="performStrategicThinking()" class="deep-thinking-button">ابدأ التفكير الاستراتيجي</button>
+                </div>
+                <div id="strategicThinkingResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض نتائج التحليل الاستراتيجي هنا...</p>
+                </div>
+            </div>
+
+            <!-- Content Creator Section (Placeholder) -->
+            <div id="contentCreatorSection" class="feature-section" style="display:none;">
+                <h2>منشئ المحتوى</h2>
+                <p>(سيتم تطوير واجهة منشئ المحتوى هنا)</p>
+                 <div class="input-area">
+                    <label for="contentTypeSelect">نوع المحتوى:</label>
+                    <select id="contentTypeSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="مقالة">مقالة</option>
+                        <option value="تقرير">تقرير</option>
+                        <option value="شعر">شعر</option>
+                    </select>
+                    <input type="text" id="contentTopicInput" placeholder="اكتب موضوع المحتوى..." style="width: 70%; padding: 0.5rem; margin-bottom:10px;">
+                    <label for="contentLanguageSelect">اللغة:</label>
+                    <select id="contentLanguageSelect" style="padding: 0.5rem; margin-bottom:10px;">
+                        <option value="العربية">العربية</option>
+                        <option value="الإنجليزية">الإنجليزية</option>
+                        <option value="الفرنسية">الفرنسية</option>
+                    </select>
+                    <button onclick="performContentCreation()" class="deep-thinking-button">أنشئ المحتوى</button>
+                </div>
+                <div id="contentCreatorResults" style="margin-top: 20px; padding:10px; border: 1px solid var(--border-light); border-radius: 4px;">
+                    <p>سيتم عرض المحتوى المُنشأ هنا...</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="notifications">
+            <h2>الإشعارات</h2>
+            <p>(نظام إشعارات متقدم - سيتم تطويره)</p>
+        </section>
+    </main>
+
+    <footer>
+        <p id="ownershipSignature">عبدالعزيز | Wlored v1.0 | 2025</p>
+    </footer>
+
+    <script>
+        // Function to show specific feature section and hide others
+        function showFeatureSection(sectionId) {
+            document.getElementById('mainContent').style.display = 'none';
+            const sections = document.querySelectorAll('section.content > .feature-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            const targetElement = document.getElementById(sectionId);
+            if (targetElement) {
+                targetElement.style.display = 'block';
+            }
+        }
+
+        // JavaScript for Deep Search - Static Demo Version
+        function performDeepSearch() {
+            const query = document.getElementById('deepSearchQueryInput').value;
+            const resultsDiv = document.getElementById('deepSearchResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري البحث العميق عن \"${query}\"...</p>`;
+
+            // محاكاة استجابة البحث العميق (نسخة ثابتة)
+            setTimeout(() => {
+                let html = `<h3>نتائج البحث عن: ${query}</h3>
+                <div style="margin-top: 15px;">
+                    <h4>ملخص شامل</h4>
+                    <p>هذه استجابة محاكاة للبحث العميق حول الموضوع المطلوب. في بيئة الإنتاج، سيتم استبدال هذا بمحتوى فعلي من خدمة الذكاء الاصطناعي.</p>
+                    
+                    <h4>النقاط الرئيسية والحقائق المهمة</h4>
+                    <ul>
+                        <li>نقطة رئيسية أولى حول الموضوع</li>
+                        <li>نقطة رئيسية ثانية حول الموضوع</li>
+                        <li>نقطة رئيسية ثالثة حول الموضوع</li>
+                    </ul>
+                    
+                    <h4>وجهات نظر مختلفة</h4>
+                    <ul>
+                        <li>وجهة نظر أولى: تفاصيل وتحليل</li>
+                        <li>وجهة نظر ثانية: تفاصيل وتحليل</li>
+                        <li>وجهة نظر ثالثة: تفاصيل وتحليل</li>
+                    </ul>
+                    
+                    <h4>مصادر موثوقة للمزيد من المعلومات</h4>
+                    <ul>
+                        <li>مصدر أول: example.com</li>
+                        <li>مصدر ثاني: example.org</li>
+                        <li>مصدر ثالث: example.net</li>
+                    </ul>
+                </div>`;
+                resultsDiv.innerHTML = html;
+            }, 1500);
+        }
+
+        // JavaScript for Strategic Thinking - Static Demo Version
+        function performStrategicThinking() {
+            const problem = document.getElementById('strategicProblemInput').value;
+            const level = document.getElementById('strategicLevelSelect').value;
+            const resultsDiv = document.getElementById('strategicThinkingResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري التفكير الاستراتيجي في \"${problem}\" بمستوى \"${level}\"...</p>`;
+
+            // محاكاة استجابة التفكير الاستراتيجي (نسخة ثابتة)
+            setTimeout(() => {
+                let html = `<h3>التحليل الاستراتيجي لـ: ${problem} (مستوى: ${level})</h3>
+                <div style="margin-top: 15px;">
+                    <h4>تحليل SWOT</h4>
+                    <h5>نقاط القوة</h5>
+                    <ul>
+                        <li>قوة أولى</li>
+                        <li>قوة ثانية</li>
+                        <li>قوة ثالثة</li>
+                    </ul>
+                    
+                    <h5>نقاط الضعف</h5>
+                    <ul>
+                        <li>ضعف أول</li>
+                        <li>ضعف ثاني</li>
+                        <li>ضعف ثالث</li>
+                    </ul>
+                    
+                    <h5>الفرص</h5>
+                    <ul>
+                        <li>فرصة أولى</li>
+                        <li>فرصة ثانية</li>
+                        <li>فرصة ثالثة</li>
+                    </ul>
+                    
+                    <h5>التهديدات</h5>
+                    <ul>
+                        <li>تهديد أول</li>
+                        <li>تهديد ثاني</li>
+                        <li>تهديد ثالث</li>
+                    </ul>
+                    
+                    <h4>خيارات استراتيجية محتملة</h4>
+                    <ol>
+                        <li>استراتيجية أولى</li>
+                        <li>استراتيجية ثانية</li>
+                        <li>استراتيجية ثالثة</li>
+                    </ol>
+                    
+                    <h4>توصيات للخطوات التالية</h4>
+                    <ul>
+                        <li>توصية أولى</li>
+                        <li>توصية ثانية</li>
+                        <li>توصية ثالثة</li>
+                    </ul>
+                    
+                    <h4>مخاطر محتملة وكيفية التخفيف منها</h4>
+                    <ul>
+                        <li>مخاطرة أولى: طرق التخفيف</li>
+                        <li>مخاطرة ثانية: طرق التخفيف</li>
+                        <li>مخاطرة ثالثة: طرق التخفيف</li>
+                    </ul>
+                </div>`;
+                resultsDiv.innerHTML = html;
+            }, 1500);
+        }
+
+        // JavaScript for Content Creator - Static Demo Version
+        function performContentCreation() {
+            const contentType = document.getElementById('contentTypeSelect').value;
+            const topic = document.getElementById('contentTopicInput').value;
+            const language = document.getElementById('contentLanguageSelect').value;
+            const resultsDiv = document.getElementById('contentCreatorResults');
+            resultsDiv.innerHTML = `<p>الرجاء الانتظار، جاري إنشاء محتوى من نوع \"${contentType}\" حول \"${topic}\" باللغة \"${language}\"...</p>`;
+
+            // محاكاة استجابة منشئ المحتوى (نسخة ثابتة)
+            setTimeout(() => {
+                let html = `<h3>تم إنشاء ${contentType} حول: ${topic} (${language})</h3>`;
+                
+                if (contentType === 'مقالة') {
+                    html += `<div style="margin-top: 15px;">
+                        <h4>مقدمة</h4>
+                        <p>هذه مقدمة جذابة حول الموضوع المطلوب. في بيئة الإنتاج، سيتم استبدال هذا بمحتوى فعلي من خدمة الذكاء الاصطناعي.</p>
+                        
+                        <h4>القسم الأول</h4>
+                        <p>محتوى تفصيلي للقسم الأول...</p>
+                        
+                        <h4>القسم الثاني</h4>
+                        <p>محتوى تفصيلي للقسم الثاني...</p>
+                        
+                        <h4>القسم الثالث</h4>
+                        <p>محتوى تفصيلي للقسم الثالث...</p>
+                        
+                        <h4>خاتمة</h4>
+                        <p>ملخص للنقاط الرئيسية والاستنتاجات النهائية.</p>
+                    </div>`;
+                } else if (contentType === 'تقرير') {
+                    html += `<div style="margin-top: 15px;">
+                        <h4>ملخص تنفيذي</h4>
+                        <p>ملخص موجز للتقرير وأهم النتائج.</p>
+                        
+                        <h4>خلفية ومعلومات أساسية</h4>
+                        <p>معلومات تفصيلية عن خلفية الموضوع.</p>
+                        
+                        <h4>تحليل البيانات والاتجاهات</h4>
+                        <p>تحليل مفصل للبيانات والاتجاهات المتعلقة بالموضوع.</p>
+                        
+                        <h4>استنتاجات وتوصيات</h4>
+                        <p>الاستنتاجات الرئيسية والتوصيات المقترحة.</p>
+                        
+                        <h4>مراجع ومصادر</h4>
+                        <p>قائمة بالمراجع والمصادر المستخدمة في التقرير.</p>
+                    </div>`;
+                } else if (contentType === 'شعر') {
+                    html += `<div style="margin-top: 15px; text-align: center;">
+                        <p>في رحاب الكلمات تسمو المعاني<br>
+                        وتتجلى الحكمة في ثنايا القوافي<br>
+                        كأنها نجوم تتلألأ في سماء الليل<br>
+                        تنير دروب الحائرين وتهدي السائرين</p>
+                        
+                        <p>تحمل في طياتها رسائل عميقة<br>
+                        وتعبر عن مشاعر صادقة ودفينة<br>
+                        كأنها نهر يتدفق بلا توقف<br>
+                        يروي ظمأ الروح ويغسل أدران القلب</p>
+                        
+                        <p>هذه محاكاة لقصيدة أدبية راقية<br>
+                        في بيئة الإنتاج، سيتم استبدالها بمحتوى إبداعي فعلي</p>
+                    </div>`;
+                }
+                
+                resultsDiv.innerHTML = html;
+            }, 1500);
+        }
+        
+        // Initial setup: if a feature is targeted by hash, show it and scroll to it
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash) {
+                const targetSectionId = window.location.hash.substring(1); // remove #
+                const targetElement = document.getElementById(targetSectionId);
+                if (targetElement && targetElement.classList.contains('feature-section')) {
+                     showFeatureSection(targetSectionId);
+                }
+            }
+        });
+
+        // For the header search bar
+        function triggerDeepSearchFromHeader() {
+            const query = document.getElementById('smartSearchHeader').value;
+            if(query){
+                showFeatureSection('deepSearchSection');
+                document.getElementById('deepSearchQueryInput').value = query;
+                performDeepSearch();
+            }
+        }
+    </script>
+</body>
+</html>

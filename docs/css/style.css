@@ -1,0 +1,245 @@
+/* WloredAI Stylesheet - Updated with Soft Modern Palette & Deep Thinking Button Focus */
+
+:root {
+    /* Soft Modern Palette - Primary: User Defined Royal Purple */
+    --primary-color: #4A2FBD; /* أرجواني ملكي - User Defined */
+    --primary-color-rgb: 74, 47, 189;
+
+    /* Soft Modern - Backgrounds */
+    --background-light: #F8F9FA; /* أبيض ناعم */
+    --background-dark: #1A1C1E; /* قريب من #121A26, adjusted for less harshness */
+
+    /* Soft Modern - Surfaces (Cards, Modals, Sidebars) */
+    --surface-light: #FFFFFF;
+    --surface-dark: #242629; /* قريب من #1E1E1E or #282A36 */
+
+    /* Soft Modern - Text */
+    --text-light-primary: #212529; /* أسود غامق (#222) */
+    --text-light-secondary: #495057; /* أسود معتدل (#333) */
+    --text-dark-primary: #E9ECEF; /* أبيض ناصع (#FFF) */
+    --text-dark-secondary: #ADB5BD;
+
+    /* Soft Modern - Bubbles & Interactive Elements */
+    --user-message-bg-light: #E3F2FD; /* قريب من أزرق سماوي (#2196F3) but softer */
+    --user-message-text-light: #0D47A1;
+    --ai-message-bg-light: #F1F3F5;    /* قريب من رمادي باهت (#ECECEC) */
+    --ai-message-text-light: #343A40;
+
+    --user-message-bg-dark: #2A2E33; /* قريب من رمادي متوسط مشبع (#424242) */
+    --user-message-text-dark: #E9ECEF;
+    --ai-message-bg-dark: #31353A;   /* قريب من أزرق فاتح متدرج (#1E88E5) but solid for now */
+    --ai-message-text-dark: #E9ECEF;
+
+    /* Deep Thinking Button - Dynamic Orange or Strong Purple (using primary for now) */
+    --deep-thinking-bg: #FB8C00; /* برتقالي ديناميكي */
+    --deep-thinking-text: #FFFFFF;
+    --deep-thinking-hover-bg: #FFA726;
+
+    /* Links */
+    --link-light: #1976D2; /* أزرق قودي */
+    --link-dark: #64B5F6; /* Lighter blue for dark mode */
+
+    --border-light: #DEE2E6;
+    --border-dark: #495057;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Auto Dark/Light Theme */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--background-dark);
+        color: var(--text-dark-primary);
+    }
+    header, footer {
+        background-color: var(--surface-dark);
+        border-bottom: 1px solid var(--border-dark);
+    }
+    .sidebar {
+        background-color: var(--surface-dark);
+        border-left: 1px solid var(--border-dark); /* RTL support */
+    }
+    .search-bar-container input[type="search"],
+    .search-bar-container button {
+        background-color: #2E2E2E; /* Darker input */
+        color: var(--text-dark-primary);
+        border: 1px solid var(--border-dark);
+    }
+    .search-bar-container button {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    a {
+        color: var(--link-dark);
+    }
+    .notifications {
+        border-right: 1px solid var(--border-dark);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: var(--background-light);
+        color: var(--text-light-primary);
+    }
+    header, footer {
+        background-color: var(--surface-light);
+        border-bottom: 1px solid var(--border-light);
+    }
+    .sidebar {
+        background-color: var(--surface-light);
+        border-left: 1px solid var(--border-light); /* RTL support */
+    }
+    .search-bar-container input[type="search"],
+    .search-bar-container button {
+        background-color: #FFF;
+        color: var(--text-light-primary);
+        border: 1px solid var(--border-light);
+    }
+    .search-bar-container button {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    a {
+        color: var(--link-light);
+    }
+    .notifications {
+        border-right: 1px solid var(--border-light);
+    }
+}
+
+header {
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.search-bar-container input[type="search"] {
+    padding: 0.75rem;
+    border-radius: 4px 0 0 4px;
+    min-width: 300px;
+    font-size: 1rem;
+}
+
+.search-bar-container button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+}
+
+main {
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 1rem;
+    margin-left: 1rem; /* RTL support: margin-left instead of margin-right */
+    border-radius: 8px;
+}
+
+.sidebar h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 0.75rem 0.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    text-decoration: none;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.notifications {
+    width: 300px;
+    padding: 1rem;
+    margin-right: 1rem; /* RTL support: margin-right instead of margin-left */
+    border-radius: 8px;
+}
+
+.notifications h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+/* Deep Thinking Button Style */
+.deep-thinking-button {
+    background-color: var(--deep-thinking-bg);
+    color: var(--deep-thinking-text);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: inline-block; /* Or block if it needs to be full width */
+    margin-top: 1rem;
+}
+
+.deep-thinking-button:hover {
+    background-color: var(--deep-thinking-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+    
+    .sidebar, .notifications {
+        width: auto;
+        margin: 0 0 1rem 0;
+    }
+    
+    .search-bar-container input[type="search"] {
+        min-width: 200px;
+    }
+}
