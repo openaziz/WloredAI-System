@@ -1,8 +1,17 @@
+from flask import Flask, render_template, jsonify, request
 import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))  # DON'T CHANGE THIS !!!
+import asyncio
+from dotenv import load_dotenv
 
-from flask import Flask, render_template, jsonify, request # Added request here
+# إضافة مسار المشروع إلى مسارات النظام
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+# استيراد خدمة Gemini
+from services.gemini_service import gemini_service
+
+# تحميل متغيرات البيئة
+load_dotenv()
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -17,10 +26,10 @@ class WloredAI:
         # NVIDIA_AI_Shield=True (مفهومي، سيتم بحث كيفية تطبيقه)
         
         # 💡 نواة الذكاء الاصطناعي (مفاهيمية)
-        self.محرك_التفكير_العميق = "Grok-3-Mini (معدل - مفهومي)"
+        self.محرك_التفكير_العميق = "Google Gemini API"
         self.نافذة_السياق = 131072  # رمز
 
-    def بناء_الواجهة_cfg(self): # Renamed to avoid conflict with a potential route
+    def بناء_الواجهة_cfg(self):
         return {
             "اللون_الرئيسي": "#4A2FBD",
             "النسق": "داكن/فاتح تلقائي",
@@ -31,15 +40,15 @@ class WloredAI:
             ]
         }
 
-    def تفعيل_الميزات_cfg(self): # Renamed to avoid conflict
+    def تفعيل_الميزات_cfg(self):
         return {
             "البحث_العميق": {
-                "الوصف": "بحث شامل في 28 مصدرًا عالميًا (مفهومي)",
-                "المحددات": "10,000 طلب/يوم مجانًا"
+                "الوصف": "بحث شامل باستخدام Google Gemini API",
+                "المحددات": "حسب حدود استخدام Google Gemini API"
             },
             "التفكير_الاستراتيجي": {
                 "المستويات": ["مبتدئ", "متوسط", "خبير"],
-                "الوظيفة": "تحليل المشكلات متعددة الأبعاد (مفهومي)"
+                "الوظيفة": "تحليل المشكلات متعددة الأبعاد باستخدام Google Gemini API"
             },
             "منشئ_المحتوى": {
                 "النماذج": ["مقالات", "تقارير", "شعر"],
@@ -47,25 +56,28 @@ class WloredAI:
             }
         }
 
-    # --- Feature Methods (Placeholders) --- #
-    def perform_deep_search(self, query):
-        # Placeholder: Simulate deep search
-        print(f"Performing deep search for: {query}")
-        return [f"نتيجة بحث عميق 1 عن '{query}'", f"نتيجة بحث عميق 2 عن '{query}'"]
+    # --- تنفيذ الميزات باستخدام خدمة Gemini --- #
+    async def perform_deep_search(self, query):
+        """تنفيذ بحث عميق باستخدام Gemini API"""
+        result = await gemini_service.deep_search(query)
+        return result
+    
+    async def perform_strategic_thinking(self, problem, level='مبتدئ'):
+        """تنفيذ تفكير استراتيجي باستخدام Gemini API"""
+        scenario = f"المشكلة: {problem}\nالمستوى: {level}"
+        result = await gemini_service.strategic_thinking(scenario)
+        return result
+    
+    async def create_content(self, content_type, topic, language='العربية'):
+        """إنشاء محتوى باستخدام Gemini API"""
+        topic_with_lang = f"{topic} (باللغة {language})"
+        result = await gemini_service.content_generator(topic_with_lang, content_type)
+        return result
 
-    def perform_strategic_thinking(self, problem, level='مبتدئ'):
-        # Placeholder: Simulate strategic thinking
-        print(f"Performing strategic thinking for: {problem} at level {level}")
-        return f"تحليل استراتيجي لمشكلة '{problem}' بمستوى '{level}': الحل المقترح هو..."
+# إنشاء نسخة من WloredAI
+wlored_ai = WloredAI()
 
-    def create_content(self, content_type, topic, language='العربية'):
-        # Placeholder: Simulate content creation
-        print(f"Creating content: type='{content_type}', topic='{topic}', language='{language}'")
-        return f"تم إنشاء {content_type} حول '{topic}' باللغة {language}: النص هنا..."
-
-wlored_ai = WloredAI() # Instantiate the AI
-
-# --- Routes --- #
+# --- المسارات --- #
 @app.route('/')
 def home():
     return render_template('index.html', 
@@ -78,28 +90,45 @@ def privacy_policy():
                            site_title="سياسة الخصوصية - WloredAI", 
                            signature=OWNERSHIP_SIGNATURE)
 
-# --- API Routes for Features (Placeholders) --- #
-@app.route('/api/deep_search', methods=['POST', 'GET']) # Allow GET for simple testing
+# --- مسارات API للميزات --- #
+@app.route('/api/deep_search', methods=['POST', 'GET'])
 def api_deep_search():
-    query = request.args.get('query', 'موضوع افتراضي للبحث') 
-    results = wlored_ai.perform_deep_search(query)
-    return jsonify({"status": "success", "feature": "البحث العميق", "query": query, "data": results})
+    query = request.args.get('query', 'موضوع افتراضي للبحث')
+    
+    # استخدام asyncio لتشغيل الدالة غير المتزامنة
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    results = loop.run_until_complete(wlored_ai.perform_deep_search(query))
+    loop.close()
+    
+    return jsonify(results)
 
 @app.route('/api/strategic_thinking', methods=['POST', 'GET'])
 def api_strategic_thinking():
     problem = request.args.get('problem', 'مشكلة افتراضية للتحليل')
     level = request.args.get('level', 'مبتدئ')
-    analysis = wlored_ai.perform_strategic_thinking(problem, level)
-    return jsonify({"status": "success", "feature": "التفكير الاستراتيجي", "problem": problem, "level": level, "data": analysis})
+    
+    # استخدام asyncio لتشغيل الدالة غير المتزامنة
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    analysis = loop.run_until_complete(wlored_ai.perform_strategic_thinking(problem, level))
+    loop.close()
+    
+    return jsonify(analysis)
 
 @app.route('/api/create_content', methods=['POST', 'GET'])
 def api_create_content():
-    content_type = request.args.get('type', 'مقالة')
+    content_type = request.args.get('type', 'article')
     topic = request.args.get('topic', 'موضوع افتراضي للمحتوى')
     language = request.args.get('language', 'العربية')
-    content = wlored_ai.create_content(content_type, topic, language)
-    return jsonify({"status": "success", "feature": "منشئ المحتوى", "type": content_type, "topic": topic, "language": language, "data": content})
+    
+    # استخدام asyncio لتشغيل الدالة غير المتزامنة
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    content = loop.run_until_complete(wlored_ai.create_content(content_type, topic, language))
+    loop.close()
+    
+    return jsonify(content)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True) # Changed port to 5001
-
+    app.run(host='0.0.0.0', port=5001, debug=True)
